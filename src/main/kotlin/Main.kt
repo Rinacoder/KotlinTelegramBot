@@ -1,9 +1,13 @@
 package org.example
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.io.File
+
 fun main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, Kotlin!")
+
+    val wordsFile:File = File("words.txt")
+    val wordsLines = wordsFile.readLines()
+    for(i in wordsLines){
+        println(i)
+    }
+
 }
