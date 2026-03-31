@@ -1,9 +1,20 @@
 package org.example
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.io.File
+import java.io.IOException
+
+const val FILE_NAME = "words.txt"
+
 fun main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, Kotlin!")
+    System.setOut(java.io.PrintStream(System.out, true, "UTF-8"))
+    val wordsFile: File = File(FILE_NAME)
+    try {
+        val wordsLines = wordsFile.readLines()
+        for (line in wordsLines) {
+            println(line)
+        }
+    } catch (e: IOException) {
+        println("Ошибка при работе с файлом: ${e.message}")
+    }
+
 }
