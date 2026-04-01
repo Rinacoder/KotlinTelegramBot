@@ -5,13 +5,28 @@ import java.io.IOException
 
 const val FILE_NAME = "words.txt"
 
+data class Word(
+    val original: String,
+    val translate: String,
+    val correctAnswersCount: Int = 0
+)
+
 fun main() {
     System.setOut(java.io.PrintStream(System.out, true, "UTF-8"))
     val wordsFile: File = File(FILE_NAME)
     try {
         val wordsLines = wordsFile.readLines()
         for (line in wordsLines) {
-            println(line)
+            val wordData = line.split("|")
+            if (wordData.size < 2)
+                continue
+
+            val dictionary = Word(
+                original = wordData[0],
+                translate = wordData[1],
+                correctAnswersCount = wordData.getOrNull(2)?.toIntOrNull() ?: 0
+            )
+            println(dictionary)
         }
     } catch (e: IOException) {
         println("Ошибка при работе с файлом: ${e.message}")
