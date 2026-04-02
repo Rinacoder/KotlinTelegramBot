@@ -16,18 +16,21 @@ fun main() {
     val wordsFile: File = File(FILE_NAME)
     try {
         val wordsLines = wordsFile.readLines()
+        val dictionary = mutableListOf<Word>()
         for (line in wordsLines) {
             val wordData = line.split("|")
             if (wordData.size < 2)
                 continue
 
-            val dictionary = Word(
-                original = wordData[0],
-                translate = wordData[1],
-                correctAnswersCount = wordData.getOrNull(2)?.toIntOrNull() ?: 0
+            dictionary.add(
+                Word(
+                    original = wordData[0],
+                    translate = wordData[1],
+                    correctAnswersCount = wordData.getOrNull(2)?.toIntOrNull() ?: 0
+                )
             )
-            println(dictionary)
         }
+        println(dictionary)
     } catch (e: IOException) {
         println("Ошибка при работе с файлом: ${e.message}")
     }
