@@ -12,27 +12,51 @@ data class Word(
 )
 
 fun main() {
-    System.setOut(java.io.PrintStream(System.out, true, "UTF-8"))
-    val wordsFile: File = File(FILE_NAME)
-    try {
-        val wordsLines = wordsFile.readLines()
-        val dictionary = mutableListOf<Word>()
-        for (line in wordsLines) {
-            val wordData = line.split("|")
-            if (wordData.size < 2)
-                continue
 
-            dictionary.add(
-                Word(
-                    original = wordData[0],
-                    translate = wordData[1],
-                    correctAnswersCount = wordData.getOrNull(2)?.toIntOrNull() ?: 0
-                )
+    try {
+        val dictionary = loadDictionary()
+
+        while (true) {
+            println(
+                """
+                1 - Учить слова
+                2 - Статистика
+                0 - Выход
+                """.trimIndent()
             )
+            val menu = readln()
+            when (menu) {
+                "1" -> println("Учить слова")
+                "2" -> println("Статистика")
+                "0" -> break
+                else -> println("Такого пункта меню не существует. Введите 1, 2 или 0")
+            }
         }
-        println(dictionary)
+
     } catch (e: IOException) {
         println("Ошибка при работе с файлом: ${e.message}")
     }
 
+}
+
+fun loadDictionary(): MutableList<Word> {
+    val wordsFile: File = File(FILE_NAME)
+    val wordsLines = wordsFile.readLines()
+    val dictionary = mutableListOf<Word>()
+
+    for (line in wordsLines) {
+        val wordData = line.split("|")
+
+        if (wordData.size < 2)
+            continue
+
+        dictionary.add(
+            Word(
+                original = wordData[0],
+                translate = wordData[1],
+                correctAnswersCount = wordData.getOrNull(2)?.toIntOrNull() ?: 0
+            )
+        )
+    }
+    return dictionary
 }
